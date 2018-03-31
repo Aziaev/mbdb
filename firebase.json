@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "firebase-debug.log",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/build",
+        "destination": "/build/index.html"
+      }
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
+  }
+}

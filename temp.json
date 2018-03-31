@@ -1,0 +1,24 @@
+{
+  "match": {
+    "path": "/donate/:userId",
+    "url": "/donate/23",
+    "isExact": true,
+    "params": {
+      "userId": "23"
+    }
+  },
+  "location": {
+    "pathname": "/donate/23",
+    "search": "",
+    "hash": ""
+  },
+  "history": {
+    "length": 50,
+    "action": "POP",
+    "location": {
+      "pathname": "/donate/23",
+      "search": "",
+      "hash": ""
+    }
+  }
+}

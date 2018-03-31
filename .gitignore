@@ -1,0 +1,32 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+package-lock.json
+build.zip
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+### IntelliJ IDEA ###
+.mvn/wrapper
+*.iws
+*.iml
+*.ipr
+*.sh
+*.cmd
+.idea
+/.idea
+**/.idea/workspace.xml
+/.idea/
+.idea/workspace.xml

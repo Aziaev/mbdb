@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114531313-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-114531313-1');
+        </script>
+
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript" >
+          (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+              try {
+                w.yaCounter47772082 = new Ya.Metrika({
+                  id:47772082,
+                  clickmap:true,
+                  trackLinks:true,
+                  accurateTrackBounce:true
+                });
+              } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+              s = d.createElement("script"),
+              f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+              d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+          })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/47772082" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#000000">
+        <!--
+        manifest.json provides metadata used when your web app is added to the
+        homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+        -->
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+        <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        <link rel="apple-touch-icon" sizes="76x76" href="%PUBLIC_URL%/apple-icon.png">
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+        <title>Music Boom - платформа для развития артистов</title>
+    </head>
+    <body class="off-canvas-sidebar">
+        <noscript>
+        You need to enable JavaScript to run this app.
+        </noscript>
+        <div id="root"></div>
+    </body>
+    <!-- Firebase statistic -->
+    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDQacbH0QwjEEB3N2QgUx1anlskllGgE18",
+        authDomain: "fir-music-boom.firebaseapp.com",
+        databaseURL: "https://fir-music-boom.firebaseio.com",
+        projectId: "firebase-music-boom",
+        storageBucket: "firebase-music-boom.appspot.com",
+        messagingSenderId: "623567506856"
+      };
+      firebase.initializeApp(config);
+    </script>
+</html>
