@@ -1,124 +1,99 @@
 import React, { Component } from 'react';
-import {
-    Grid, Row, Col,
-    Media,
-    FormControl, FormGroup
-} from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
+import Switch from 'react-bootstrap-switch';
+import StepZilla from 'react-stepzilla';
+import WizardCard from "../../components/Card/WizardCard";
+import ArtistStep2 from "../Forms/Wizard/ArtistStep2";
+import ArtistStep3 from "../Forms/Wizard/ArtistStep3";
+import Step1 from "../Forms/Wizard/Step1";
+import UserStep2 from "../Forms/Wizard/UserStep2";
+import UserStep3 from "../Forms/Wizard/UserStep3";
 
-import Card from '../../components/Card/Card.jsx';
-
-import Button from '../../elements/CustomButton/CustomButton.jsx';
-
-class RegisterPage extends Component{
-    render(){
-        return (
-            <Grid>
-                <Row>
-                    <Col md={8} mdOffset={2}>
-                        <div className="header-text">
-                            <h2>Light Bootstrap Dashboard PRO</h2>
-                            <h4>Register for free and experience the dashboard today</h4>
-                            <hr />
-                        </div>
-                    </Col>
-                    <Col md={4} mdOffset={2}>
-                        <Media>
-                            <Media.Left>
-                                <div className="icon">
-                                    <i className="pe-7s-user"></i>
-                                </div>
-                            </Media.Left>
-                            <Media.Body>
-                                <Media.Heading>
-                                    Free Account
-                                </Media.Heading>
-                                Here you can write a feature description for your dashboard, let the users know what is the value that you give them.
-                            </Media.Body>
-                        </Media>
-                        <Media>
-                            <Media.Left>
-                                <div className="icon">
-                                    <i className="pe-7s-graph1"></i>
-                                </div>
-                            </Media.Left>
-                            <Media.Body>
-                                <Media.Heading>
-                                    Awesome Performances
-                                </Media.Heading>
-                                Here you can write a feature description for your dashboard, let the users know what is the value that you give them.
-                            </Media.Body>
-                        </Media>
-                        <Media>
-                            <Media.Left>
-                                <div className="icon">
-                                    <i className="pe-7s-headphones"></i>
-                                </div>
-                            </Media.Left>
-                            <Media.Body>
-                                <Media.Heading>
-                                    Global Support
-                                </Media.Heading>
-                                Here you can write a feature description for your dashboard, let the users know what is the value that you give them.
-                            </Media.Body>
-                        </Media>
-                    </Col>
-                    <Col md={4}>
-                        <form>
-                            <Card
-                                plain
-                                content={
-                                    <div>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Your First Name"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Your Last Name"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Company"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="email"
-                                                placeholder="Enter Email"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="password"
-                                                placeholder="Password"
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormControl
-                                                type="password"
-                                                placeholder="Password Confirmation"
-                                            />
-                                        </FormGroup>
-                                    </div>
-                                }
-                                ftTextCenter
-                                legend={
-                                    <Button wd fill neutral>
-                                        Create Free Account
-                                    </Button>
-                                }
-                            />
-                        </form>
-                    </Col>
-                </Row>
-            </Grid>
-        );
+class RegisterPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cardHidden: true,
+      isArtist: false
     }
+  }
+
+  componentDidMount() {
+    setTimeout(function () {
+      this.setState({ cardHidden: false });
+    }.bind(this), 700);
+    document.title = 'Регистрация | Music Boom'
+  }
+
+  handleSwitch(state) {
+    this.setState({
+      isArtist: state.state.value
+    })
+  }
+
+  render() {
+    let { isArtist } = this.state;
+    let stepsForArtist = [
+      {
+        name: 'Контакты', component: <Step1 switch={
+        <div>
+          <Switch
+            defaultValue={isArtist}
+            onText="Да"
+            offText="Нет"
+            onChange={(el, state) => this.handleSwitch(el, state)}
+          />
+          <span style={{ paddingLeft: '15px' }}>Я буду выступать как артист</span>
+        </div>
+      }/>
+      },
+      { name: 'Об артисте', component: <ArtistStep2/> },
+      { name: 'Подтверждение', component: <ArtistStep3/> }
+    ];
+    let stepsForListener = [
+      {
+        name: 'Контакты', component: <Step1 switch={
+        <div>
+          <Switch
+            defaultValue={isArtist}
+            onText="Да"
+            offText="Нет"
+            onChange={(el, state) => this.handleSwitch(el, state)}
+          />
+          <span style={{ paddingLeft: '15px' }}>Я буду выступать как артист</span>
+        </div>
+      }/>
+      },
+      { name: '-', component: <UserStep2/> },
+      { name: 'Подтверждение', component: <UserStep3/> }
+    ];
+    console.log(`this.state.isArtist = `, isArtist);
+    return (
+      <Grid>
+        <Row>
+          <Col md={6} mdOffset={3}>
+            <WizardCard
+              wizard
+              id="wizardCard"
+              textCenter
+              title="Вау это регистрация"
+              category=""
+              content={
+                <StepZilla
+                  steps={isArtist ? stepsForArtist : stepsForListener}
+                  showSteps={true}
+                  stepsNavigation={false}
+                  nextButtonCls="btn btn-prev btn-info btn-fill pull-right btn-wd"
+                  backButtonCls="btn btn-next btn-default btn-fill pull-left btn-wd"
+                  nextButtonText={'Далее'}
+                />
+              }
+            />
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
 }
 
 export default RegisterPage;

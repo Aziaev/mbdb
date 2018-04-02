@@ -80,6 +80,10 @@ class Payments extends Component {
     });
   }
 
+  componentDidMount() {
+    document.title = 'Платежи. Панель управления | Music Boom'
+  }
+
   //TODO: Добавить сортировку в полях и постраничный вывод. Пример - Datatables
   render() {
     let langCode = 0;

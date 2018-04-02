@@ -28,6 +28,7 @@ class Dash extends Component {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       Ps.initialize(this.refs.mainPanel, { wheelSpeed: 2, suppressScrollX: true });
     }
+    document.title = 'Панель управления | Music Boom'
   }
 
   // function that shows/hides notifications - it was put here, because the wrapper div has to be outside the main-panel class div

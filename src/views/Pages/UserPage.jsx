@@ -24,6 +24,10 @@ class UserPage extends Component {
     });
   }
 
+  componentDidMount() {
+    document.title = 'Профиль. Панель управления | Music Boom'
+  }
+
   render() {
     let currentUser = mockUsers[0];
     return (
@@ -180,7 +184,7 @@ class UserPage extends Component {
                 description={currentUser.aboutMe}
                 socials={
                   <div style={{ padding: '15px'}}>
-                    Моя страница: <a href={`https://musboom.ru/users/id${currentUser.id}`}>Ссылка на мой профиль</a>
+                    Моя страница: <a href={`https://musboom.ru/donate/${currentUser.id}`}>Ссылка на мой профиль</a>
                   </div>
                 }
               />

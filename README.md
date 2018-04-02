@@ -1,7 +1,4 @@
-# mbdb
-musicboom startup webapp with dashboard and pages based on reactJS
-
-##Панель и промо страница управления для MusicBoom
+#Панель и промо страница управления для MusicBoom
 Запилен на базе create-react-app
 
 Команды:
@@ -19,3 +16,6 @@ musicboom startup webapp with dashboard and pages based on reactJS
 1. ```npm run build```
 2. ```npm run deploy```
 
+Запуск:
+1. ```npm run start-js```
+2. http://localhost:3000/

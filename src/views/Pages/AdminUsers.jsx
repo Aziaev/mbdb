@@ -11,6 +11,10 @@ class AdminUsers extends Component {
     console.log('new state:', state);
   }
 
+  componentDidMount() {
+    document.title = 'Панель администратора | Music Boom'
+  }
+
   render() {
     let users = mockUsers;
     return (

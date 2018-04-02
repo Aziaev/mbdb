@@ -7,9 +7,9 @@ import{
 
 import Card from '../../../components/Card/Card.jsx';
 
-import Step1 from './Step1.jsx';
-import Step2 from './Step2.jsx';
-import Step3 from './Step3.jsx';
+import Step1 from './ArtistStep1';
+import Step2 from './ArtistStep2.jsx';
+import Step3 from './ArtistStep3.jsx';
 
 const steps = [
     { name: 'First Tab', component: <Step1 />},

@@ -39,6 +39,10 @@ class Dashboard extends Component {
     return tableRows;
   }
 
+  componentDidMount() {
+    document.title = 'Панель управления | Music Boom'
+  }
+
   render() {
     let currentUser = mockUsers[0];
     let langCode = 0;

@@ -7,6 +7,10 @@ import { getMonthsEventsStat } from "../../helpers/index";
 import { mockEvents, mockPayments } from "../../variables/Variables";
 
 class Stats extends Component {
+  componentDidMount() {
+    document.title = 'Статистика. Панель управления | Music Boom'
+  }
+
   render() {
     let barChartOptions = {
       options: {

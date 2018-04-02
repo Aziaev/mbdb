@@ -11,20 +11,17 @@ class Pages extends Component {
   getPageClass() {
     let pageClass = "";
     switch (this.props.location.pathname) {
-      case "/pages/login-page":
+      case "/login":
         pageClass = " login-page";
         break;
-      case "/pages/register-page":
-        pageClass = " register-page";
+      case "/registration":
+        pageClass = " login-page";
         break;
-      case "/pages/lock-screen-page":
-        pageClass = " lock-page";
-        break;
-      case "/":
+      case "/": // Стили для стартовой страницы
         pageClass = " register-page";
         break;
       default:
-        pageClass = "";
+        pageClass = " register-page";
         break;
     }
     return pageClass;

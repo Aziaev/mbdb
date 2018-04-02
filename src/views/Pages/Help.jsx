@@ -4,6 +4,10 @@ import { Col, Grid, Row } from 'react-bootstrap';
 import Card from '../../components/Card/Card.jsx';
 
 class Help extends Component {
+  componentDidMount() {
+    document.title = 'Помощь. Панель управления | Music Boom'
+  }
+
   render() {
     return (
       <div className="main-content">

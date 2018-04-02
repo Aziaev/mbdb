@@ -67,6 +67,10 @@ class AdminPayments extends Component {
     });
   }
 
+  componentDidMount() {
+    document.title = 'Панель администратора | Music Boom'
+  }
+
   render() {
     let currentUser = mockUsers[0];
     let langCode = 0;
