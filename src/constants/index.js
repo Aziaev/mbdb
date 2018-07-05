@@ -1,7 +1,6 @@
 import calendar from './calendar'
 import dashboard from './dashboard'
 import updateStatus from "./updateStatus";
-import withdraw from './withdraw'
 
 export default {
   APP_NAME: 'MusicBoom',
@@ -82,6 +81,14 @@ export default {
       ],
       icon: 'pe-7s-star',
       id: 'donate'
+    },
+    banner: {
+      label: [
+        'Распечатать баннер',
+        'Print banner'
+      ],
+      icon: 'pe-7s-star',
+      id: 'banner'
     },
     notifications: {
       label: [
@@ -166,7 +173,7 @@ export default {
     },
     email: {
       label: [
-        'Электропочта',
+        'Электронная почта',
         'Email'
       ],
       id: 'email'

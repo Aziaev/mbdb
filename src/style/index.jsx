@@ -64,3 +64,7 @@ export const donateButtonInactive = {
   backgroundSize: 'cover',
   margin: '15px auto'
 };
+
+export const borderWithError = {
+  borderColor: '#FB404B'
+}

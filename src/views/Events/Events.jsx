@@ -46,7 +46,6 @@ class Events extends Component{
         });
     }
     addNewEvent(e,slotInfo){
-        console.log(e,slotInfo);
         var newEvents = this.state.events;
         newEvents.push({
             'title': e,

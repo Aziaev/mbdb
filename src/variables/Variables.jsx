@@ -10,7 +10,7 @@ let guitarist_avatar = require("../assets/img/artists/guitarist_avatar.jpg");
 // //
 //
 
-var selectOptions = [
+const selectOptions = [
   { value: 'id', label: 'Bahasa Indonesia' },
   { value: 'ms', label: 'Bahasa Melayu' },
   { value: 'ca', label: 'Català' },
@@ -39,7 +39,43 @@ var selectOptions = [
   { value: 'ko', label: '한국어' }
 ];
 
-var selectStatus = [
+const languageOptions = [
+  { value: 'id', label: 'Bahasa Indonesia' },
+  { value: 'ms', label: 'Bahasa Melayu' },
+  { value: 'ca', label: 'Català' },
+  { value: 'da', label: 'Dansk' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
+  { value: 'el', label: 'Eλληνικά' },
+  { value: 'fr', label: 'Français' },
+  { value: 'it', label: 'Italiano' },
+  { value: 'hu', label: 'Magyar' },
+  { value: 'nl', label: 'Nederlands' },
+  { value: 'no', label: 'Norsk' },
+  { value: 'pl', label: 'Polski' },
+  { value: 'pt', label: 'Português' },
+  { value: 'fi', label: 'Suomi' },
+  { value: 'sv', label: 'Svenska' },
+  { value: 'tr', label: 'Türkçe' },
+  { value: 'is', label: 'Íslenska' },
+  { value: 'cs', label: 'Čeština' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'th', label: 'ภาษาไทย' },
+  { value: 'zh', label: '中文 (简体)' },
+  { value: 'zh-TW', label: '中文 (繁體)' },
+  { value: 'ja', label: '日本語' },
+  { value: 'ko', label: '한국어' }
+];
+
+const creativityOptions = [
+  { value: 'musician', label: 'музыкант' },
+  { value: 'artist', label: 'артист' },
+  { value: 'showman', label: 'шоумен' },
+  { value: 'other', label: 'другое'}
+];
+
+const selectStatus = [
   { value: 'ACCEPTED', label: 'Отправлено' },
   { value: 'DISPUTED', label: 'Отказано' }
 ];
@@ -126,9 +162,9 @@ const table_data = [
 // // // For notifications
 // //
 //
-var defaultWidth = window.screen.width > 768 ? window.screen.width * 1 / 3 : window.screen.width;
+const defaultWidth = window.screen.width > 768 ? window.screen.width * 1 / 3 : window.screen.width;
 
-var style = {
+const style = {
   Wrapper: {},
   Containers: {
     DefaultStyle: {
@@ -600,13 +636,13 @@ const iconsArray = [
 // //
 //
 // Data for Pie Chart
-var dataPie = {
+const dataPie = {
   labels: ['40%', '20%', '40%'],
   series: [40, 20, 40]
 };
 
 // Data for Line Chart
-var dataSales = {
+const dataSales = {
   labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
   series: [
     [287, 385, 490, 492, 554, 586, 698, 695],
@@ -614,7 +650,7 @@ var dataSales = {
     [23, 113, 67, 108, 190, 239, 307, 308]
   ]
 };
-var optionsSales = {
+const optionsSales = {
   low: 0,
   high: 800,
   showArea: false,
@@ -630,7 +666,7 @@ var optionsSales = {
     right: 50
   }
 };
-var responsiveSales = [
+const responsiveSales = [
   ['screen and (max-width: 640px)', {
     axisX: {
       labelInterpolationFnc: function (value) {
@@ -641,21 +677,21 @@ var responsiveSales = [
 ];
 
 // Data for Bar Chart
-var dataBar = {
+const dataBar = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   series: [
     [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
     [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
   ]
 };
-var optionsBar = {
+const optionsBar = {
   seriesBarDistance: 10,
   axisX: {
     showGrid: false
   },
   height: "245px"
 };
-var responsiveBar = [
+const responsiveBar = [
   ['screen and (max-width: 640px)', {
     seriesBarDistance: 5,
     axisX: {
@@ -1112,8 +1148,27 @@ let mockPayments = [
     status: 'OPEN'
   }
 ];
+
 let langCode = 0;
-let GOOGLE_API_KEY = 'AIzaSyBBFvSIa5JBhQ0f_x7U8G2Pir7KLxVVyVw';
+const GOOGLE_API_KEY = 'AIzaSyDP3-4a596-42VjGlpqeIypFEEORxYV5xo';
+const FREEGEOIP_API_KEY = 'cc56083d4934983fc107c2897b3d34b1';
+const FREEGEOIP_URL = `http://api.ipstack.com/check?access_key=${FREEGEOIP_API_KEY}&format=1`
+const YANDEX_WALLET = '410011498501521';
+
+
+const EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const PHONE_REGEXP = /^[0-9]{10}$/;
+const BACKEND_URL = 'https://api.musboom.ru:8080/musicboom/';
+const BACKEND_STATIC_URL = 'https://api.musboom.ru/pictures/';
+
+const FIREBASE_AUTH_CFG = {
+  apiKey: "AIzaSyDQacbH0QwjEEB3N2QgUx1anlskllGgE18",
+  authDomain: "fir-music-boom.firebaseapp.com",
+  databaseURL: "https://fir-music-boom.firebaseio.com",
+  projectId: "firebase-music-boom",
+  storageBucket: "firebase-music-boom.appspot.com",
+  messagingSenderId: "623567506856"
+};
 
 module.exports = {
   selectOptions, // For selets in ExtendedForms view
@@ -1130,4 +1185,13 @@ module.exports = {
   mapCenter,
   GOOGLE_API_KEY,
   selectStatus,
+  languageOptions,
+  creativityOptions,
+  EMAIL_REGEXP,
+  PHONE_REGEXP,
+  BACKEND_URL,
+  BACKEND_STATIC_URL,
+  FIREBASE_AUTH_CFG,
+  YANDEX_WALLET,
+  FREEGEOIP_URL
 };

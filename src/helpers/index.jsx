@@ -1,3 +1,5 @@
+import { PHONE_REGEXP } from '../variables/Variables';
+
 let monthLabels = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
 
 export const getLocale = (langCode) => {
@@ -21,6 +23,7 @@ export const getMonthsMoneyStat = (payments) => {
       if (payment.date.getMonth() === i && payment.method === 'card') {
         monthResult = monthResult + payment.sum;
       }
+      return monthResult;
     });
     result.push(monthResult);
   }
@@ -40,9 +43,18 @@ export const getMonthsEventsStat = (events) => {
       if (payment.start.getMonth() === i) {
         monthResult = monthResult + 1;
       }
+      return monthResult;
     });
     result.push(monthResult);
   }
   data.series.push(result);
   return data;
+};
+
+export const checkPhoneNumber = (number) => {
+  return PHONE_REGEXP.test(number);
+};
+
+export const checkPassword = (email) => {
+  return !!email;
 };

@@ -1,0 +1,12 @@
+.accordion .panel-heading {
+    background-color: transparent;
+}
+
+.accordion .panel {
+    background-color: transparent;
+}
+
+.accordion a:hover {
+    color: white;
+    cursor: pointer;
+}

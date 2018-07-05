@@ -3,7 +3,7 @@ import { Col, Grid, Row, Table } from 'react-bootstrap';
 import SetStatusAlert from "../Components/SetStatusAlert";
 import Card from '../../components/Card/Card.jsx';
 import SweetAlert from 'react-bootstrap-sweetalert';
-import { mockPayments, mockUsers, tdArray, thArray } from '../../variables/Variables.jsx';
+import { mockPayments, mockUsers } from '../../variables/Variables.jsx';
 import PaymentItem from "../Components/PaymentItem";
 
 class AdminPayments extends Component {
@@ -73,7 +73,6 @@ class AdminPayments extends Component {
 
   render() {
     let currentUser = mockUsers[0];
-    let langCode = 0;
     return (
       <div className="main-content">
         {this.state.alert}

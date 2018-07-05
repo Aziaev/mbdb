@@ -13,6 +13,9 @@
         "destination": "/build/index.html"
       }
     ],
+    "headers": [
+      {"source": "/service-worker.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
+    ],
     "cleanUrls": true,
     "trailingSlash": false
   }

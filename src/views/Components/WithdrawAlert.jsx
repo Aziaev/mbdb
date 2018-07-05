@@ -4,6 +4,11 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 import { WithDrawElement } from "../../components/Card/WithDrawElement";
 import dashboard from "../../constants/dashboard";
 import { withDrawForm, withdrawItemBorderStyle } from "../../style";
+import {connect} from "react-redux"
+
+
+// Минимальный лимит вывода наличных
+const MIN_LIMIT = 500;
 
 class WithdrawAlert extends Component {
   constructor(props) {
@@ -21,7 +26,7 @@ class WithdrawAlert extends Component {
 
   render() {
     let langCode = 0;
-    let { cardNumber, balance, onConfirm, onCancel } = this.props;
+    let { cardNumber, balance, withdrawError, onConfirm, onCancel } = this.props;
     let value = this.state.value;
     let inputTitle = {
       fontSize: '12px',
@@ -31,19 +36,19 @@ class WithdrawAlert extends Component {
     };
     let revenueLabel = dashboard.cards.revenue.label[langCode];
     let revenueIcon = dashboard.cards.revenue.icon;
-    let borderStyleDanger = (value > balance) ? withdrawItemBorderStyle : {};
+    let borderStyleDanger = (value && (value < MIN_LIMIT || value > balance)) ? withdrawItemBorderStyle : {};
     return (
       <SweetAlert
         style={{ display: "block", marginTop: "-100px" }}
         title="Новая заявка"
-        onConfirm={onConfirm}
+        onConfirm={() => onConfirm(value)}
         onCancel={onCancel}
         confirmBtnBsStyle={'info'}
         cancelBtnBsStyle="danger"
         confirmBtnText={'Создать'}
         cancelBtnText="Отменить"
         showCancel
-        showConfirm={value <= balance}
+        showConfirm={value >= MIN_LIMIT && value <= balance}
       >
         <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
           <div>
@@ -84,17 +89,24 @@ class WithdrawAlert extends Component {
                       {` ₽`}
                     </InputGroup.Addon>
                   </InputGroup>
-                  {value > balance &&
-                  <p className="text-danger" style={inputTitle}>Введите сумму не более {`${balance}₽`}</p>}
+                  {value > balance && <p className="text-danger" style={inputTitle}>Введите сумму не более {`${balance}₽`}</p>}
+                  {value <= balance && value < MIN_LIMIT && <p className="text-danger" style={inputTitle}>Введите сумму не менее {`${MIN_LIMIT}₽`}</p>}
+                  {withdrawError && <p className="text-danger" style={inputTitle}>{withdrawError}</p>}
                 </Col>
               </div>
             </FormGroup>
           </div>
         </Row>
       </SweetAlert>
-
     );
   }
 }
 
-export default WithdrawAlert;
+const mapStateToProps = (state) => {
+  return {
+    withdrawError: state.dashboard.data.withdrawError
+  }
+}
+
+export default connect(mapStateToProps)(WithdrawAlert);
+

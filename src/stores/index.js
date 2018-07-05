@@ -1,23 +1,26 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import { accountReducer, appReducer, dataReducer, mapReducer } from '../reducers'
+import { authReducer, dashboardReducer, pubReducer, performanceReducer } from '../reducers'
 
-var store;
+// auth - Данные для авторизации, логина, регистрации, восстановления. Хранится сессия
+// public - стор для публичных данных используется на главной странице, странице доната
+// dashboard - стор для данных в панели управления
+
+let store;
 export default {
 
   configure: (initialState) => { // initialState can be null
 
     const reducers = combineReducers({
-      account: accountReducer, // All current session and user data
-      app: appReducer, // Only app data menus, buttons, views, components etc...
-      data: dataReducer, // Downloaded data: items, users, posts, operations, notifications etc...
-      map: mapReducer, //
+      auth: authReducer, // auth - Данные для авторизации, логина, регистрации, восстановления. Хранится сессия
+      dashboard: dashboardReducer, // dashboard - стор для данных в панели управления
+      pub: pubReducer, // public - стор для публичных данных используется на главной странице, странице доната
+      performance: performanceReducer // стор для хранения статуса текущего выступления авторизованного артиста
     });
 
     // Console logger
-    // let wares = [thunk, logger];
-    let wares = [thunk];
+    let wares = [thunk, logger];
 
     if (initialState) {
       store = createStore(

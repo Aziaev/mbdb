@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
-function FieldGroup({ label, ...props }) {
+function FieldGroup({ label, validationState, ...props }) {
     return (
-        <FormGroup>
+        <FormGroup validationState={validationState}>
             <ControlLabel>{label}</ControlLabel>
             <FormControl {...props} />
         </FormGroup>

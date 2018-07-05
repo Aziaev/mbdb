@@ -4,7 +4,7 @@ class MapCard extends Component{
     render(){
         return (
             <div className="card card-map">
-                <div className="header">
+                <div className="header text-center">
                     <h4 className="title">{this.props.title}</h4>
                 </div>
                 <div className="content">

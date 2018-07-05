@@ -1,11 +1,11 @@
-import accountActions from './accountActions'
-import appActions from './appActions'
-import dataActions from './dataActions'
-import mapActions from './mapActions'
+import authActions from './authActions'
+import dashboardActions from './dashboardActions'
+import pubActions from './pubActions'
+import landingActions from './landingActions'
 
-export {
-  accountActions,
-  appActions,
-  dataActions,
-  mapActions,
+export default {
+  authActions,
+  dashboardActions,
+  pubActions,
+  landingActions
 }

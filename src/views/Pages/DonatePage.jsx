@@ -3,9 +3,10 @@ import { Col, FormControl, FormGroup, Grid, InputGroup, Row } from 'react-bootst
 import avatar from "../../assets/img/default_avatar.png";
 import bgImage from '../../assets/img/full-screen-image-3.jpg';
 import UserCard from "../../components/Card/UserCard";
-import constants from "../../constants";
+import constants from "../../constants/index";
 import { donateButtonActive, donateButtonInactive } from "../../style/index";
-import { mockUsers } from "../../variables/Variables";
+import {YANDEX_WALLET} from '../../variables/Variables';
+
 
 class DonatePage extends Component {
   constructor() {
@@ -16,7 +17,8 @@ class DonatePage extends Component {
       filter: '',
       users: [],
       valid: true,
-      userId: null
+      userId: null,
+      user: null
     };
   }
 
@@ -29,30 +31,14 @@ class DonatePage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.match.params.userId ?
-      this.fetchUserById(this.props.match.params.userId)
-      :
-      this.fetchUsers();
-    this.props.match.params.userId ?
-      document.title = 'Персональная страница артиста | Music Boom'
-      :
-      document.title = 'Cтраница поиска артистов | Music Boom'
-
-  }
-
   fetchUserById(userId) {
-    this.setState({
-      userId: userId
-    });
-  }
-
-  fetchUsers() {
-    let users = mockUsers;
-    this.setState({
-      users: users,
-      data: users
-    })
+    this.props.getUserById(userId)
+      .then(response => {
+        console.log(`donate.js response = ${JSON.stringify(response)}`)
+      })
+      .catch(err => {
+        console.log(`donate.js error = ${err.message}`)
+      })
   }
 
   setValue(e) {
@@ -88,20 +74,26 @@ class DonatePage extends Component {
   }
 
   render() {
-    let { amount, filter, users, userId, valid } = this.state;
+    let { amount, filter, valid } = this.state;
     let langCode = 0;
-    let currentUser = mockUsers[0];
+    let currentUser = this.props.pub.user;
+    let users = this.props.pub.users;
     let proceedPayment = constants.DONATE_PAGE.proceedPayment.label[langCode];
     let paymentDescription = `${constants.DONATE_PAGE.description.label[langCode]} ${currentUser.name} ${currentUser.surname} id${currentUser.id}`;
-    let paymentAccountNumber = "41001996086728";
+    let paymentLabel = currentUser.id;
+    let paymentAccountNumber = YANDEX_WALLET;
     let successUrl = "http://localhost:3000/dashboard";
     let error = !valid ? {borderColor: '#FB404B'} : {};
+    const yandexUrl = `https://money.yandex.ru/quickpay/button-widget?targets=${paymentDescription}&default-sum=${amount}&button-text=11&any-card-payment-type=on&button-size=m&button-color=orange&successURL=${successUrl}&quickpay=small&account=${paymentAccountNumber}&label=${paymentLabel}`
+
+    console.log(`this.props.donatePage = `, this.props, currentUser);
+
     return (
       <div className="main-content">
         <Grid fluid>
           <Row>
             <Col>
-              {userId ?
+              {currentUser.id ?
                 <h4 className='text-center'>Вы можете отправить пожертвование этому артисту</h4>
                 :
                 <div>
@@ -123,15 +115,15 @@ class DonatePage extends Component {
             </Col>
           </Row>
           <Row>
-            {userId ?
+            {currentUser.id ?
               <Col md={4} mdOffset={4} sm={6} smOffset={3}>
                 <div className="card card-user">
                   <div className="image">
-                    <img src={currentUser.photos[0] || bgImage} alt="..."/>
+                    <img src={currentUser.photos ? currentUser.photos[0] : bgImage} alt="..."/>
                   </div>
                   <div className="content">
                     <div className="author">
-                      <img className="avatar border-gray" src={currentUser.avatar || avatar} alt="..."/>
+                      <img className="avatar border-gray" src={`${currentUser.avatar}` || avatar} alt="..."/>
                       <h4 className="title">
                         <small>{currentUser.nickname}</small>
                         <br/>
@@ -172,7 +164,7 @@ class DonatePage extends Component {
                           <div style={donateButtonActive}>
                             <iframe
                               title='yandexPaymentButton'
-                              src={`https://money.yandex.ru/quickpay/button-widget?targets=${paymentDescription}&default-sum=${amount}&button-text=11&any-card-payment-type=on&button-size=m&button-color=orange&successURL=${successUrl}&quickpay=small&account=${paymentAccountNumber}`}
+                              src={yandexUrl}
                               width='227'
                               height='48'
                               frameBorder='0'
@@ -200,7 +192,7 @@ class DonatePage extends Component {
                   users.map((user, key) => {
                     return <Col md={3} key={key}>
                       <UserCard
-                        bgImage={user.photos[0] || bgImage}
+                        bgImage={currentUser.photos ? currentUser.photos[0] : bgImage}
                         avatar={user.avatar || avatar}
                         genre={user.genre}
                         name={`${user.name} ${user.surname}`}
@@ -220,5 +212,4 @@ class DonatePage extends Component {
     );
   }
 }
-
-export default DonatePage;
+export default DonatePage

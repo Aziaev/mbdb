@@ -1,6 +1,5 @@
-import Pages from '../containers/Pages.jsx';
+import Pages from '../containers/Pages.container.jsx';
 import Dash from '../containers/Dash.jsx';
-import DonatePage from "../views/Pages/DonatePage";
 
 let appRoutes = [
   { path: "/dashboard", name: "Dashboard", component: Dash },

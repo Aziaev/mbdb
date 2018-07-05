@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import constants from '../../constants';
 
 class Footer extends Component {
@@ -18,11 +18,16 @@ class Footer extends Component {
                   info@musboom.ru
                 </a>
               </li>
+              <li >
+                <a href="" target='_blank' rel="noopener noreferrer">
+                  Обратная связь
+                </a>
+              </li>
             </ul>
           </nav>
           <p className="copyright pull-right">
             &copy; {1900 + (new Date()).getYear()} <a href="http://www.musboom.ru">{constants.APP_NAME}</a>, made
-            with <i className="fa fa-heart heart"></i> for a better music! v.0.0.1b
+            with <i className="fa fa-heart heart"></i> for a better music!
           </p>
         </div>
       </footer>

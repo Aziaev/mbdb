@@ -1,24 +1,17 @@
 {
-  "match": {
-    "path": "/donate/:userId",
-    "url": "/donate/23",
-    "isExact": true,
-    "params": {
-      "userId": "23"
-    }
-  },
-  "location": {
-    "pathname": "/donate/23",
-    "search": "",
-    "hash": ""
-  },
-  "history": {
-    "length": 50,
-    "action": "POP",
-    "location": {
-      "pathname": "/donate/23",
-      "search": "",
-      "hash": ""
-    }
+  "user": {
+    "name": "dkasd",
+    "surname": "asdm",
+    "patronymic": "",
+    "nickname": "sd",
+    "country": "Россия",
+    "city": "asd",
+    "phoneNumber": "9046788666",
+    "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+    "email": "1@1.ru",
+    "creativity": "showman",
+    "genre": "asd",
+    "isAgreementOfPersonalData": true,
+    "isArtistContract": true
   }
 }

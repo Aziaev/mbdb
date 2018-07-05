@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Collapse } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Collapse} from 'react-bootstrap';
+import {NavLink} from 'react-router-dom';
 // this is used to create scrollbars on windows devices like the ones from apple devices
 import * as Ps from 'perfect-scrollbar';
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.min.css';
@@ -9,10 +9,10 @@ import image from '../../assets/img/full-screen-image-3.jpg';
 import dashRoutes from '../../routes/dash'
 import logo from "../../assets/img/mblogo.svg";
 import constants from '../../constants';
-import { subMenuIcon, subMenuLabel } from "../../style";
-import { mockUsers } from "../../variables/Variables";
+import {subMenuIcon, subMenuLabel} from "../../style";
+import {connect} from "react-redux"
 
-const bgImage = { backgroundImage: "url(" + image + ")" };
+const bgImage = {backgroundImage: "url(" + image + ")"};
 
 class Sidebar extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Sidebar extends Component {
   // if the windows width changes CSS has to make some changes
   // this functions tell react what width is the window
   updateDimensions() {
-    this.setState({ width: window.innerWidth });
+    this.setState({width: window.innerWidth});
   }
 
   componentDidMount() {
@@ -45,8 +45,9 @@ class Sidebar extends Component {
     // add event listener for windows resize
     window.addEventListener("resize", this.updateDimensions.bind(this));
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-      Ps.initialize(this.refs.sidebarWrapper, { wheelSpeed: 2, suppressScrollX: true });
+      Ps.initialize(this.refs.sidebarWrapper, {wheelSpeed: 2, suppressScrollX: true});
     }
+    document.title = 'Баннер | Music Boom';
   }
 
   componentDidUpdate() {
@@ -67,7 +68,11 @@ class Sidebar extends Component {
   }
 
   render() {
-    let user = mockUsers[0];
+    // let user = mockUsers[0];
+
+    const user = this.props.dashboard.data ? this.props.dashboard.data.user : null;
+    const defaultAvatar = 'images/artist.png';
+
     return (
       <div className="sidebar" data-color="black" data-image={bgImage}>
         <div className="sidebar-background" style={bgImage}></div>
@@ -84,14 +89,14 @@ class Sidebar extends Component {
         <div className="sidebar-wrapper" ref="sidebarWrapper">
           <div className="user">
             <div className="photo">
-              <img src={user.avatar} alt="Avatar"/>
+              <img src={user && user.avatar ? user.avatar : defaultAvatar } alt="Avatar"/>
             </div>
             <div className="info">
-              <a onClick={() => this.setState({ openAvatar: !this.state.openAvatar })}>
-                                <span>
-                                  {user.name} {user.surname}
-                                  <b className={this.state.openAvatar ? "caret rotate-180" : "caret"}></b>
-                                </span>
+              <a onClick={() => this.setState({openAvatar: !this.state.openAvatar})}>
+                <span>
+                  {user ? `${user.name} ${user.surname}` : ''}
+                  <b className={this.state.openAvatar ? "caret rotate-180" : "caret"}/>
+                </span>
               </a>
               <Collapse in={this.state.openAvatar}>
                 <ul className="nav">
@@ -118,15 +123,12 @@ class Sidebar extends Component {
           </div>
 
           <ul className="nav">
-            {/* If we are on responsive, we want both links from navbar and sidebar
-                            to appear in sidebar, so we render here HeaderLinks */}
-            {this.state.width <= 992 ? (<HeaderLinks/>) : null}
             {/*
-                here we render the links in the sidebar
-                if the link is simple, we make a simple link, if not,
-                we have to create a collapsible group,
-                with the speciffic parent button and with it's children which are the links
-            */}
+             here we render the links in the sidebar
+             if the link is simple, we make a simple link, if not,
+             we have to create a collapsible group,
+             with the speciffic parent button and with it's children which are the links
+             */}
             {
               dashRoutes.map((prop, key) => {
                 let st = {};
@@ -176,6 +178,9 @@ class Sidebar extends Component {
                 }
               })
             }
+            {/* If we are on responsive, we want both links from navbar and sidebar
+             to appear in sidebar, so we render here HeaderLinks */}
+            {this.state.width <= 992 ? (<HeaderLinks/>) : null}
           </ul>
         </div>
       </div>
@@ -183,4 +188,12 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const stateToProps = (state) => {
+  return {
+    auth: state.auth,
+    dashboard: state.dashboard,
+    pub: state.pub
+  };
+};
+
+export default connect(stateToProps)(Sidebar);

@@ -50,7 +50,6 @@ class Calendar extends Component {
   }
 
   addNewEvent(e, slotInfo) {
-    console.log(e, slotInfo);
     var newEvents = this.state.events;
     newEvents.push({
       'title': e,
@@ -82,13 +81,6 @@ class Calendar extends Component {
 
   render() {
     let langCode = 0;
-    let views = {
-      MONTH: 'month1',
-      WEEK: 'week1',
-      WORK_WEEK: 'work_week1',
-      DAY: 'day1',
-      AGENDA: 'agenda1'
-    };
     return (
       <div className="main-content">
         {this.state.alert}

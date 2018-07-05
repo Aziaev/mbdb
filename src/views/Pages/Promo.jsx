@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Button, Col, Grid, Media, Row } from 'react-bootstrap';
-import constants from '../../constants'
-import { promoBlock, promoIconDiv, promoSubHeader, styledP, whiteText } from "../../style";
+import React, {Component} from "react"
+import {Col, Grid, Media, Row} from "react-bootstrap"
+import constants from "../../constants"
+import {promoBlock, promoIconDiv, styledP, whiteText} from "../../style"
 
 class Promo extends Component {
   render() {
@@ -32,33 +32,11 @@ class Promo extends Component {
               <div style={promoBlock}>
                 <h2>{constants.APP_NAME}</h2>
                 <h4>{promoTitle}</h4>
-                <p style={styledP}>
-                  Сейчас проект “Music Boom” находится в стадии активной разработки. Мы планируем запустить альфа
-                  версию
-                  для тестирования в середине апреля. Все новости и небольшие отчеты мы выкладываем в нашей
-                  официальной
-                  группе <a href="https://vk.com/startup_mb" target='_blank' rel="noopener noreferrer">https://vk.com/startup_mb</a>.
-                </p>
-              </div>
-              <hr/>
-              <div style={promoBlock}>
-                <h4 style={promoSubHeader}>Будь первым</h4>
-                <p style={{ paddingBottom: '20px' }}>Мы начали набор амбассадоров для участия в альфа-тестировании.
-                  Будем раздавать мегаплюшки!</p>
-                <Button
-                  bsSize="lg"
-                  bsStyle="info"
-                  fill
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSeLKFHS1QdhGajROuhHhxA-cK9cbZHbXOYSsWnLRZCCYZS47A/viewform"
-                  target='_blank'
-                  rel="noopener noreferrer">
-                  Хочу участвовать!
-                </Button>
               </div>
               <hr/>
             </div>
-            <Media style={{ marginTop: '0' }}>
-              <h4 className='text-center' style={{ paddingBottom: '20px' }}>О сервисе</h4>
+            <Media style={{marginTop: '0'}}>
+              <h4 className='text-center' style={{paddingBottom: '20px'}}>О сервисе</h4>
               <Media.Left>
                 <div className="icon" style={promoIconDiv}>
                   <i className={mediaTitle01Icon}></i>

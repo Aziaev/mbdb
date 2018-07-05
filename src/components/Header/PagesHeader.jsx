@@ -1,12 +1,27 @@
-import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import constants from '../../constants'
+import React, {Component} from "react"
+import {Nav, Navbar, NavItem} from "react-bootstrap"
+import {NavLink, withRouter} from "react-router-dom"
+import constants from "../../constants"
+import "./Header.css"
+import {connect} from "react-redux"
+import UserMenu from "./UserMenu"
+import authActions from "../../actions/authActions"
+
+
+const EVENTS = {
+  APP: 'APP',
+  ABOUT: 'ABOUT',
+  FOR_ARTISTS: 'FOR_ARTISTS',
+  LOGIN: 'LOGIN',
+  ARTIST_REGISTER: 'ARTIST_REGISTER',
+  USER_REGISTER: 'USER_REGISTER',
+  USER_PROFILE: 'USER_PROFILE',
+  LOGOUT: 'LOGOUT'
+}
 
 class PagesHeader extends Component {
   constructor(props) {
     super(props);
-    this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
     this.state = {
       width: window.innerWidth
     }
@@ -17,13 +32,38 @@ class PagesHeader extends Component {
     return window.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
   }
 
-  // function that shows/hides sidebar on responsive
-  mobileSidebarToggle(e) {
-    document.documentElement.classList.toggle('nav-open');
+  handleOptionSelect = (optionIndex) => {
+
+    switch (optionIndex) {
+      case EVENTS.USER_REGISTER:
+        this.props.history.push('registration');
+        break;
+      case EVENTS.ARTIST_REGISTER:
+        this.props.history.push('artist_registration');
+        break;
+      case EVENTS.ABOUT:
+        this.props.history.push('promo');
+        break;
+      case EVENTS.FOR_ARTISTS:
+        this.props.history.push('for_artists');
+        break;
+      case EVENTS.LOGIN:
+        this.props.history.push('login');
+        break;
+      case EVENTS.USER_PROFILE:
+        this.props.history.push('dashboard');
+        break;
+      case EVENTS.LOGOUT:
+        this.props.logout();
+        break;
+      default:
+        break;
+    }
+
   }
 
   updateWidth() {
-    this.setState({ width: window.innerWidth });
+    this.setState({width: window.innerWidth});
   }
 
   componentDidMount() {
@@ -31,54 +71,54 @@ class PagesHeader extends Component {
   }
 
   render() {
-    let langCode = 0;
-    let dashboard = constants.MENU.dashboard.label[langCode];
-    let login = constants.MENU.login.label[langCode];
-    let loginIcon = constants.MENU.login.icon;
-    let register = constants.MENU.register.label[langCode];
-    let registerIcon = constants.MENU.register.icon;
-
     return (
-      <Navbar collapseOnSelect inverse className="navbar-primary navbar-transparent navbar-absolute">
-        <Navbar.Header>
+      <Navbar collapseOnSelect inverse className="navbar-primary navbar-transparent navbar-absolute"
+              onSelect={this.handleOptionSelect}>
+        <Navbar.Header className="inline-button brand">
           <Navbar.Brand>
             <NavLink to='/' className="nav-link">
-              {this.state.width > 429 ? `${constants.APP_NAME}` : `${constants.APP_NAME}`}
+              {constants.APP_NAME}
             </NavLink>
           </Navbar.Brand>
-          {/*<Navbar.Toggle onClick={this.mobileSidebarToggle}/>*/}
         </Navbar.Header>
-        <Navbar.Collapse>
-          <ul className="nav navbar-nav navbar-right">
-            {/*<li>*/}
-              {/*<NavLink to={'/dashboard'} className="nav-link" disabled>*/}
-                {/*<i className="fa fa-th-list"></i>*/}
-                {/*<p>{dashboard}</p>*/}
-              {/*</NavLink>*/}
-            {/*</li>*/}
-            {/*<li className={this.activeRoute('login-page')}>*/}
-              {/*<NavLink to={'/pages/login-page'} className="nav-link" disabled={true}>*/}
-                {/*<i className={loginIcon}></i>*/}
-                {/*<p>{login}</p>*/}
-              {/*</NavLink>*/}
-            {/*</li>*/}
-            {/*<li className={this.activeRoute('register-page')}>*/}
-              {/*<NavLink to={'/pages/register-page'} className="nav-link disabled">*/}
-                {/*<i className={registerIcon}></i>*/}
-                {/*<p>{register}</p>*/}
-              {/*</NavLink>*/}
-            {/*</li>*/}
-            {/*<li className={this.activeRoute('lock-screen-page')}>*/}
-              {/*<NavLink to={'/pages/lock-screen-page'} className="nav-link">*/}
-                {/*<i className="fa fa-lock"></i>*/}
-                {/*<p>Lock Screen</p>*/}
-              {/*</NavLink>*/}
-            {/*</li>*/}
-          </ul>
-        </Navbar.Collapse>
+          <Nav pullLeft bsStyle="pills">
+            <NavItem eventKey={EVENTS.ABOUT} href="#/promo" className="about-button inline-button">
+              О сервисе
+            </NavItem>
+            <NavItem eventKey={EVENTS.FOR_ARTISTS} href="#/for_artists" className="about-button inline-button">
+              Для артистов
+            </NavItem>
+          </Nav>
+          {
+            // fixme: вынести в константы статусы пользователя
+            (this.props.userStatus === 'UNAUTHENTICATED' || !this.props.userStatus) ?
+              <Nav pullRight>
+                <NavItem eventKey={EVENTS.LOGIN} className="inline-button">
+                  Вход
+                </NavItem>
+
+                <NavItem eventKey={EVENTS.ARTIST_REGISTER} className="inline-button">
+                  Регистрация
+                </NavItem>
+              </Nav> :
+              <UserMenu user={this.props.user} events={EVENTS}/>
+          }
       </Navbar>
     );
   }
 }
 
-export default PagesHeader;
+const stateToProps = (state) => {
+  return {
+    userStatus: state.dashboard.data ? state.dashboard.data.status : null,
+    user: state.dashboard.data ? state.dashboard.data.user : null
+  };
+};
+
+const dispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(authActions.logout())
+  }
+};
+
+export default withRouter(connect(stateToProps, dispatchToProps)(PagesHeader));

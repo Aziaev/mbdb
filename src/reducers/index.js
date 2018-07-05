@@ -1,11 +1,11 @@
-import accountReducer from './accountReducer'
-import appReducer from './appReducer'
-import dataReducer from './dataReducer'
-import mapReducer from './mapReducer'
+import authReducer from './authReducer'
+import dashboardReducer from './dashboardReducer'
+import pubReducer from './pubReducer'
+import performanceReducer from './performanceReducer'
 
 export {
-  accountReducer,
-  appReducer,
-  dataReducer,
-  mapReducer
+  authReducer,
+  dashboardReducer,
+  pubReducer,
+  performanceReducer
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 // this is used to create scrollbars on windows devices like the ones from apple devices
 import * as Ps from 'perfect-scrollbar';
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.min.css';
@@ -13,6 +13,8 @@ import Footer from '../components/Footer/Footer.jsx';
 import dashRoutes from '../routes/dash.jsx';
 // style for notifications
 import { style } from "../variables/Variables.jsx";
+import {connect} from "react-redux"
+import artistActions from "../actions/artistActions"
 
 class Dash extends Component {
   constructor(props) {
@@ -23,11 +25,18 @@ class Dash extends Component {
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    if(newProps.dashboard.data && newProps.dashboard.data.status === 'UNAUTHENTICATED') {
+      this.props.history.push('/login');
+    }
+  }
+
   componentDidMount() {
     this.setState({ _notificationSystem: this.refs.notificationSystem });
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       Ps.initialize(this.refs.mainPanel, { wheelSpeed: 2, suppressScrollX: true });
     }
+    this.props.getCurrentUserData();
     document.title = 'Панель управления | Music Boom'
   }
 
@@ -142,4 +151,18 @@ class Dash extends Component {
   }
 }
 
-export default Dash;
+const dispatchToProps = (dispatch) => {
+  return {
+    getCurrentUserData: () => dispatch(artistActions.getCurrentUserData())
+  }
+};
+
+const stateToProps = (state) => {
+  return {
+    auth: state.auth,
+    dashboard: state.dashboard,
+    pub: state.pub
+  };
+};
+
+export default withRouter(connect(stateToProps, dispatchToProps)(Dash));

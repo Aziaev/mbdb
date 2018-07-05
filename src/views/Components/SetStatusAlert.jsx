@@ -14,7 +14,6 @@ class SetStatusAlert extends Component {
   }
 
   setValue(e) {
-    console.log(e);
     this.setState({
       status: e.value
     })

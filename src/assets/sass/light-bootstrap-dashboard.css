@@ -3193,6 +3193,9 @@ div.dtr-modal {
     background-color: #23CCEF;
     color: #FFFFFF; }
 
+.twoStep .multi-step .progtrckr > li {
+  width: 50%; }
+
 @media (max-width: 767px) {
   .multi-step .progtrckr {
     font-size: 10px; }

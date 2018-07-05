@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// react component that creates a form divided into multiple steps
 import StepZilla from 'react-stepzilla';
 import{
     Grid, Row, Col
@@ -7,9 +6,9 @@ import{
 
 import Card from '../../../components/Card/Card.jsx';
 
-import Step1 from './ArtistStep1';
-import Step2 from './ArtistStep2.jsx';
-import Step3 from './ArtistStep3.jsx';
+import Step1 from './ArtistStep';
+import Step2 from './ArtistStep.jsx';
+import Step3 from './ArtistStep.jsx';
 
 const steps = [
     { name: 'First Tab', component: <Step1 />},

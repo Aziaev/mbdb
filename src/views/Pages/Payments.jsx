@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
-import { Col, Grid, Row, Table } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Col, Grid, Row, Table} from 'react-bootstrap';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Card from '../../components/Card/Card.jsx';
 import StatsCard from "../../components/Card/StatsCard";
 import dashboard from "../../constants/dashboard";
 import updateStatus from "../../constants/updateStatus";
 import Button from '../../elements/CustomButton/CustomButton.jsx';
-import { mockPayments, mockUsers } from '../../variables/Variables.jsx'
-import PaymentItem from "../Components/PaymentItem";
+import {mockUsers} from '../../variables/Variables.jsx'
 import WithdrawAlert from "../Components/WithdrawAlert";
+import CardEditAlert from "../Components/CardEditAlert"
+import {bindActionCreators} from "redux"
+import artistActions from "../../actions/artistActions"
+import {connect} from "react-redux"
 
 class Payments extends Component {
   constructor(props) {
@@ -28,32 +31,68 @@ class Payments extends Component {
     this.setState({
       alert: (
         <WithdrawAlert
-          balance = {this.state.currentUser.balance}
-          onConfirm={() => this.successDelete()}
+          balance={this.props.data.user.currentBalance}
+          onConfirm={this.confirmWithdraw}
           onCancel={() => this.cancelDelete()}
-          cardNumber={this.state.currentUser.cardNumber}
+          cardNumber={this.props.data.user.cardNumber}
         />
       )
     });
   }
 
   inputConfirmAlert(e) {
-    this.setState({ alert: e });
+    this.setState({alert: e});
     setTimeout(this.inputConfirmAlertNext, 200);
   }
+
+  editCard = () => {
+    this.setState({
+      alert: (
+        <CardEditAlert
+          onConfirm={this.confirmEdit}
+          onCancel={() => this.cancelEdit()}
+          cardNumber={this.state.currentUser.cardNumber}
+        />
+      )
+    })
+  }
+
+  confirmWithdraw = (withdrawAmount) => {
+    this.props.withdraw(withdrawAmount);
+  }
+
+  confirmEdit = (cardNumber) => {
+    this.props.saveCardNumber(cardNumber);
+  }
+
 
   successDelete() {
     this.setState({
       alert: (
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{display: "block", marginTop: "-100px"}}
           title="Готово!"
           showCancel={false}
           showConfirm={false}
         >
-          Заявка улетела
+          Запрос отправлен
         </SweetAlert>
+      )
+    });
+    setTimeout(this.hideAlert, 1000);
+  }
+
+  cancelEdit() {
+    this.setState({
+      alert: (
+        <SweetAlert
+          danger
+          style={{display: "block", marginTop: "-100px"}}
+          title="Отмена"
+          showCancel={false}
+          showConfirm={false}
+        />
       )
     });
     setTimeout(this.hideAlert, 1000);
@@ -64,7 +103,7 @@ class Payments extends Component {
       alert: (
         <SweetAlert
           danger
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{display: "block", marginTop: "-100px"}}
           title="Заявка отменена"
           showCancel={false}
           showConfirm={false}
@@ -84,89 +123,58 @@ class Payments extends Component {
     document.title = 'Платежи. Панель управления | Music Boom'
   }
 
-  //TODO: Добавить сортировку в полях и постраничный вывод. Пример - Datatables
+  componentWillReceiveProps = (newProps) => {
+    if (newProps.data.cardSaved) {
+      this.successDelete()
+    }
+
+    if(newProps.data.withdrawSuccess) {
+      this.successDelete()
+    }
+
+  }
+
   render() {
     let langCode = 0;
-    let revenueAmount = 54750;
     let revenueLabel = dashboard.cards.revenue.label[langCode];
     let revenueIcon = dashboard.cards.revenue.icon;
-    let lastDay = updateStatus.lastDay.label[langCode];
-    let lastDayIcon = updateStatus.lastDay.icon;
+    let now = updateStatus.now.label[langCode];
+    let nowIcon = updateStatus.now.icon;
+
+    const { user } = this.props.data;
+    const revenueAmount = user ? user.currentBalance : '';
+    const card = user ? (user.cardNumber || 'Отсутствует') : '';
+    const editCardText = 'Изменить карту'
+
     return (
       <div className="main-content">
         {this.state.alert}
         <Grid fluid>
           <Row>
             <Col md={6}>
-              <Card
-                title="Поступления"
-                category='Список всех поступивших пожертвований'
-                tableFullWidth
-                ctAllIcons
-                content={
-                  <Table responsive>
-                    <thead>
-                    <tr>
-                      <th>Дата</th>
-                      <th>Метод оплаты</th>
-                      <th className="text-right">Сумма</th>
-                      <th className="text-center">Статус</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {mockPayments.map((item) => {
-                      if (item.method === 'card') {
-                        return (
-                          <PaymentItem item={item} key={item.id}/>
-                        )
-                      }
-                      return null;
-                    })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col>
-            <Col md={6}>
               <StatsCard
                 bigIcon={<i className={`${revenueIcon} text-success`}/>}
                 statsText={revenueLabel}
                 statsValue={`${revenueAmount}₽`}
-                statsIcon={<i className={lastDayIcon}/>}
-                statsIconText={lastDay}
+                statsIcon={<i className={nowIcon}/>}
+                statsIconText={now}
+              />
+              <StatsCard
+                bigIcon={<i className={`fa fa-credit-card text-success`}/>}
+                statsText="Привязанная карта"
+                statsValue={card}
+                statsIcon={<Button onClick={this.editCard}>{editCardText}</Button>}
               />
               <Card
                 title="Вывод"
-                category='Список заявок на вывод средств'
                 tableFullWidth
                 ctAllIcons
                 content={
-                  <div>
-                    <Table responsive>
-                      <thead>
-                      <tr>
-                        <th>Дата</th>
-                        <th>Метод оплаты</th>
-                        <th className="text-right">Сумма</th>
-                        <th className="text-center">Статус</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {mockPayments.map((item) => {
-                        if (item.method === 'withdraw') {
-                          return (
-                            <PaymentItem item={item} key={item.id}/>
-                          )
-                        }
-                        return null;
-                      })}
-                      </tbody>
-                    </Table>
-                    <Table responsive>
-                      <Button wd onClick={() => this.warningWithConfirmAndCancelMessage(revenueAmount)}>Создать заявку на
-                        вывод</Button>
-                    </Table>
-                  </div>
+                  <Table responsive>
+                    <Button wd onClick={() => this.warningWithConfirmAndCancelMessage(revenueAmount)}>
+                      Создать заявку на вывод
+                    </Button>
+                  </Table>
                 }
               />
             </Col>
@@ -177,4 +185,17 @@ class Payments extends Component {
   }
 }
 
-export default Payments;
+const mapStateToProps = (state) => {
+  return {
+    data: state.dashboard.data
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveCardNumber: bindActionCreators(artistActions.saveCardNumber, dispatch),
+    withdraw: bindActionCreators(artistActions.withdraw, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payments);
